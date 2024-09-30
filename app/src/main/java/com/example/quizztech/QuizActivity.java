@@ -8,15 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,10 +29,10 @@ public class QuizActivity extends AppCompatActivity {
     private List<QuestionList> questionLists;
     private int curretQuestionPosition = 0;
     private String seleccioneOpcionByUsuario = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_quiz);
 
         final ImageView backBtn = findViewById(R.id.backBtn);
@@ -60,98 +54,45 @@ public class QuizActivity extends AppCompatActivity {
 
         questionLists = QuestionBank.getQuestions(getSeleccioneNombreTema);
 
-
         startTimer(tiempo);
 
-        questions.setText((curretQuestionPosition+1)+"/"+questionLists.size());
-        question.setText(questionLists.get(0).getQuestion());
-        option1.setText(questionLists.get(0).getOpcion1());
-        option2.setText(questionLists.get(0).getOpcion2());
-        option3.setText(questionLists.get(0).getOpcion3());
-        option4.setText(questionLists.get(0).getOpcion4());
-
+        setQuestionData();
 
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(seleccioneOpcionByUsuario.isEmpty()){
-
-                    seleccioneOpcionByUsuario = option1.getText().toString();
-
-                    option1.setBackgroundResource(R.drawable.round_back_red10);
-                    option1.setTextColor(Color.WHITE);
-
-                    revealAnswer();
-
-                    questionLists.get(curretQuestionPosition).setUsuarioSeleccionadoAnswer(seleccioneOpcionByUsuario);
-                }
+                handleOptionSelection(option1);
             }
         });
 
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(seleccioneOpcionByUsuario.isEmpty()){
-
-                    seleccioneOpcionByUsuario = option2.getText().toString();
-
-                    option2.setBackgroundResource(R.drawable.round_back_red10);
-                    option2.setTextColor(Color.WHITE);
-
-                    revealAnswer();
-
-                    questionLists.get(curretQuestionPosition).setUsuarioSeleccionadoAnswer(seleccioneOpcionByUsuario);
-                }
+                handleOptionSelection(option2);
             }
         });
 
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(seleccioneOpcionByUsuario.isEmpty()){
-
-                    seleccioneOpcionByUsuario = option3.getText().toString();
-
-                    option3.setBackgroundResource(R.drawable.round_back_red10);
-                    option3.setTextColor(Color.WHITE);
-
-                    revealAnswer();
-
-                    questionLists.get(curretQuestionPosition).setUsuarioSeleccionadoAnswer(seleccioneOpcionByUsuario);
-                }
+                handleOptionSelection(option3);
             }
         });
 
         option4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(seleccioneOpcionByUsuario.isEmpty()){
-
-                    seleccioneOpcionByUsuario = option4.getText().toString();
-
-                    option4.setBackgroundResource(R.drawable.round_back_red10);
-                    option4.setTextColor(Color.WHITE);
-
-                    revealAnswer();
-
-                    questionLists.get(curretQuestionPosition).setUsuarioSeleccionadoAnswer(seleccioneOpcionByUsuario);
-                }
+                handleOptionSelection(option4);
             }
         });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (seleccioneOpcionByUsuario.isEmpty()){
-                    Toast.makeText(QuizActivity.this,"Porfavor seleccione una opcion", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    ChangeNextQuestion();
+                if (seleccioneOpcionByUsuario.isEmpty()) {
+                    Toast.makeText(QuizActivity.this, "Por favor seleccione una opción", Toast.LENGTH_SHORT).show();
+                } else {
+                    changeToNextQuestion();
                 }
             }
         });
@@ -159,173 +100,147 @@ public class QuizActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 quizTimer.purge();
                 quizTimer.cancel();
-
                 startActivity(new Intent(QuizActivity.this, MainActivity.class));
                 finish();
             }
         });
-
     }
-    private void ChangeNextQuestion(){
 
+    private void setQuestionData() {
+        questions.setText((curretQuestionPosition + 1) + "/" + questionLists.size());
+        question.setText(questionLists.get(0).getQuestion());
+        option1.setText(questionLists.get(0).getOpcion1());
+        option2.setText(questionLists.get(0).getOpcion2());
+        option3.setText(questionLists.get(0).getOpcion3());
+        option4.setText(questionLists.get(0).getOpcion4());
+    }
+
+    private void handleOptionSelection(AppCompatButton selectedOption) {
+        if (seleccioneOpcionByUsuario.isEmpty()) {
+            seleccioneOpcionByUsuario = selectedOption.getText().toString();
+            selectedOption.setBackgroundResource(R.drawable.round_back_red10);
+            selectedOption.setTextColor(Color.WHITE);
+            revealAnswer();
+            questionLists.get(curretQuestionPosition).setUsuarioSeleccionadoAnswer(seleccioneOpcionByUsuario);
+        }
+    }
+
+    private void changeToNextQuestion() {
         curretQuestionPosition++;
 
-        if((curretQuestionPosition+1) == questionLists.size()){
+        if ((curretQuestionPosition + 1) == questionLists.size()) {
             nextBtn.setText("Enviar");
         }
 
-        if(curretQuestionPosition < questionLists.size()){
-
-            seleccioneOpcionByUsuario = "";
-
-            option1.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
-            option1.setTextColor(Color.parseColor("#1F6BB8"));
-
-            option2.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
-            option2.setTextColor(Color.parseColor("#1F6BB8"));
-
-            option3.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
-            option3.setTextColor(Color.parseColor("#1F6BB8"));
-
-            option4.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
-            option4.setTextColor(Color.parseColor("#1F6BB8"));
-
-            questions.setText((curretQuestionPosition+1)+"/"+questionLists.size());
-            question.setText(questionLists.get(curretQuestionPosition).getQuestion());
-            option1.setText(questionLists.get(curretQuestionPosition).getOpcion1());
-            option2.setText(questionLists.get(curretQuestionPosition).getOpcion2());
-            option3.setText(questionLists.get(curretQuestionPosition).getOpcion3());
-            option4.setText(questionLists.get(curretQuestionPosition).getOpcion4());
-        }
-        else{
-
+        if (curretQuestionPosition < questionLists.size()) {
+            resetOptions();
+            setQuestionData();
+        } else {
             Intent intent = new Intent(QuizActivity.this, QuizResultados.class);
             intent.putExtra("Correcto", getCorrectAnswer());
             intent.putExtra("Incorrecto", getInCorrectAnswer());
             startActivity(intent);
-
             finish();
         }
     }
-    private void startTimer(TextView timerTextView){
 
+    private void resetOptions() {
+        seleccioneOpcionByUsuario = "";
+
+        option1.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
+        option1.setTextColor(Color.parseColor("#1F6BB8"));
+
+        option2.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
+        option2.setTextColor(Color.parseColor("#1F6BB8"));
+
+        option3.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
+        option3.setTextColor(Color.parseColor("#1F6BB8"));
+
+        option4.setBackgroundResource(R.drawable.round_back_white_stroke2_10);
+        option4.setTextColor(Color.parseColor("#1F6BB8"));
+    }
+
+    private void startTimer(TextView timerTextView) {
         quizTimer = new Timer();
-
         quizTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(seconds == 0){
-                    totalTimeInMins--;
-                    seconds = 59;
-                }
-                else if(seconds == 0 && totalTimeInMins == 0){
-                    quizTimer.purge();
-                    quizTimer.cancel();
-
-                    Toast.makeText(QuizActivity.this, "se acabo el tiempo", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(QuizActivity.this, QuizResultados.class);
-                    intent.putExtra("Correcto", getCorrectAnswer());
-                    intent.putExtra("Incorrecto", getInCorrectAnswer());
-                    startActivity(intent);
-
-                    finish();
-                }
-                else{
+                if (seconds == 0) {
+                    if (totalTimeInMins > 0) {
+                        totalTimeInMins--;
+                        seconds = 59;
+                    } else {
+                        quizTimer.purge();
+                        quizTimer.cancel();
+                        showTimeUp();
+                    }
+                } else {
                     seconds--;
                 }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        String finalMinutes = String.valueOf(totalTimeInMins);
-                        String finalSeconds = String.valueOf(seconds);
-
-                        if(finalMinutes.length() == 1);{
-                            finalMinutes = "0"+finalMinutes;
-                        }
-
-                        if(finalSeconds.length() == 1){
-                            finalSeconds = "0"+finalSeconds;
-                        }
-
-                        timerTextView.setText(finalMinutes+":"+finalSeconds);
-                    }
-                });
+                runOnUiThread(() -> updateTimer(timerTextView));
             }
-        },1000, 1000);
+        }, 0, 1000);
     }
 
-    private int getCorrectAnswer(){
+    private void updateTimer(TextView timerTextView) {
+        String finalMinutes = totalTimeInMins < 10 ? "0" + totalTimeInMins : String.valueOf(totalTimeInMins);
+        String finalSeconds = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
+        timerTextView.setText(finalMinutes + ":" + finalSeconds);
+    }
 
+    private void showTimeUp() {
+        Toast.makeText(QuizActivity.this, "Se acabó el tiempo", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(QuizActivity.this, QuizResultados.class);
+        intent.putExtra("Correcto", getCorrectAnswer());
+        intent.putExtra("Incorrecto", getInCorrectAnswer());
+        startActivity(intent);
+        finish();
+    }
+
+    private int getCorrectAnswer() {
         int correctAnswer = 0;
-
-        for(int i=0;i<questionLists.size();i++){
-
-            final String getusuarioSeleccionadoAnswer = questionLists.get(i).getUsuarioSeleccionadoAnswer();
-            final  String getAnswer = questionLists.get(i).getAnswer();
-
-            if(getusuarioSeleccionadoAnswer.equals(getAnswer)){
+        for (QuestionList question : questionLists) {
+            if (question.getUsuarioSeleccionadoAnswer().equals(question.getAnswer())) {
                 correctAnswer++;
             }
-
         }
-
         return correctAnswer;
     }
 
-    private int getInCorrectAnswer(){
-
-        int correctAnswer = 0;
-
-        for(int i=0;i<questionLists.size();i++){
-
-            final String getusuarioSeleccionadoAnswer = questionLists.get(i).getUsuarioSeleccionadoAnswer();
-            final  String getAnswer = questionLists.get(i).getAnswer();
-
-            if(!getusuarioSeleccionadoAnswer.equals(getAnswer)){
-                correctAnswer++;
+    private int getInCorrectAnswer() {
+        int incorrectAnswer = 0;
+        for (QuestionList question : questionLists) {
+            if (!question.getUsuarioSeleccionadoAnswer().equals(question.getAnswer())) {
+                incorrectAnswer++;
             }
-
         }
-
-        return correctAnswer;
+        return incorrectAnswer;
     }
 
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
         quizTimer.purge();
         quizTimer.cancel();
-
         startActivity(new Intent(QuizActivity.this, MainActivity.class));
         finish();
     }
 
-    private void revealAnswer(){
-
-        final String getAnswer = questionLists.get(curretQuestionPosition).getAnswer();
-
-        if(option1.getText().toString().equals(getAnswer)){
+    private void revealAnswer() {
+        String getAnswer = questionLists.get(curretQuestionPosition).getAnswer();
+        if (option1.getText().toString().equals(getAnswer)) {
             option1.setBackgroundResource(R.drawable.round_back_green10);
             option1.setTextColor(Color.WHITE);
-        }
-        else if(option2.getText().toString().equals(getAnswer)){
+        } else if (option2.getText().toString().equals(getAnswer)) {
             option2.setBackgroundResource(R.drawable.round_back_green10);
             option2.setTextColor(Color.WHITE);
-        }
-
-        else if(option3.getText().toString().equals(getAnswer)){
+        } else if (option3.getText().toString().equals(getAnswer)) {
             option3.setBackgroundResource(R.drawable.round_back_green10);
             option3.setTextColor(Color.WHITE);
-    }
-
-        else if(option4.getText().toString().equals(getAnswer)){
+        } else if (option4.getText().toString().equals(getAnswer)) {
             option4.setBackgroundResource(R.drawable.round_back_green10);
             option4.setTextColor(Color.WHITE);
         }

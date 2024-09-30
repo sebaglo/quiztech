@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         java.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 seleccionNombreTema = "java";
 
                 java.setBackgroundResource(R.drawable.round_back_white_stroke10);
@@ -72,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 android.setBackgroundResource(R.drawable.round_back_white_stroke10);
 
                 php.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                java .setBackgroundResource(R.drawable.round_back_white_stroke10);
                 java.setBackgroundResource(R.drawable.round_back_white_stroke10);
+                html.setBackgroundResource(R.drawable.round_back_white_stroke10); // Corregido
             }
         });
 
@@ -81,10 +80,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(seleccionNombreTema.isEmpty()){
-                    Toast.makeText(MainActivity.this,"Seleccione un Tema", Toast.LENGTH_SHORT).show();
-                }
-                else{
-
+                    Toast.makeText(MainActivity.this, "Seleccione un Tema", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent intent = new Intent(MainActivity.this, QuizActivity.class);
                     intent.putExtra("seleccioneTema", seleccionNombreTema);
                     startActivity(intent);

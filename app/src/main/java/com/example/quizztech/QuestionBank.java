@@ -1,109 +1,69 @@
 package com.example.quizztech;
 
-import android.widget.Switch;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionBank {
 
-    private static List<QuestionList> javaQuestions(){
-
+    // Lista de preguntas de Java
+    private static List<QuestionList> javaQuestions() {
         final List<QuestionList> questionLists = new ArrayList<>();
 
-        //crear objetos de clase de lista de preguntas y pasar una pregunta junto con la opción y la respuesta
-        final QuestionList question1 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","1bits","16bits");
-        final QuestionList question2 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-        final QuestionList question3 = new QuestionList("¿En que año se creo java?", "", "1978","1990","1890","1995","1995");
-        final QuestionList question4 = new QuestionList("¿Existen mas de 2 tipos de Intent?", "", "Nulo","Falso","Verdadero","No existe","Verdadero");
-        final QuestionList question5 = new QuestionList("¿Ques es java?", "", "lenguaje de programacion","un programa","null","un juego","lenguaje de programacion");
-        final QuestionList question6 = new QuestionList("¿Cuantas clases hay en java?", "", "2","1","4","3","4s ");
-
-        //agregar todas las preguntas a la List<QuestionList>
-
-        questionLists.add(question1);
-        questionLists.add(question2);
-        questionLists.add(question3);
-        questionLists.add(question4);
-        questionLists.add(question5);
-        questionLists.add(question6);
+        questionLists.add(new QuestionList("¿Cuál es el tamaño de una variable int?", "", "16bits", "32bits", "160bits", "1bits", "32bits"));
+        questionLists.add(new QuestionList("¿Cuál es el valor de una variable boolean?", "", "Verdadero", "Verdadero o falso", "Falso", "Ninguno", "Verdadero o falso"));
+        questionLists.add(new QuestionList("¿En qué año se creó Java?", "", "1978", "1990", "1890", "1995", "1995"));
+        questionLists.add(new QuestionList("¿Existen más de 2 tipos de Intent?", "", "Nulo", "Falso", "Verdadero", "No existe", "Verdadero"));
+        questionLists.add(new QuestionList("¿Qué es Java?", "", "Lenguaje de programación", "Un programa", "Un juego", "Un sistema operativo", "Lenguaje de programación"));
+        questionLists.add(new QuestionList("¿Cuántas clases hay en Java?", "", "2", "1", "4", "3", "4"));
 
         return questionLists;
     }
 
-    private static List<QuestionList> phpQuestions(){
-
+    // Lista de preguntas de PHP
+    private static List<QuestionList> phpQuestions() {
         final List<QuestionList> questionLists = new ArrayList<>();
 
-        //crear objetos de clase de lista de preguntas y pasar una pregunta junto con la opción y la respuesta
-        final QuestionList question1 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question2 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-        final QuestionList question3 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question4 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-        final QuestionList question5 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question6 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-
-        //agregar todas las preguntas a la List<QuestionList>
-
-        questionLists.add(question1);
-        questionLists.add(question2);
-        questionLists.add(question3);
-        questionLists.add(question4);
-        questionLists.add(question5);
-        questionLists.add(question6);
+        questionLists.add(new QuestionList("¿Qué significa PHP?", "", "Personal Home Page", "PHP: Hypertext Preprocessor", "Pre Hypertext Processor", "Página personal de inicio", "PHP: Hypertext Preprocessor"));
+        questionLists.add(new QuestionList("¿PHP es un lenguaje de?", "", "Programación", "Scripting del lado del servidor", "Marcado", "Estilo", "Scripting del lado del servidor"));
+        questionLists.add(new QuestionList("¿Qué símbolo se usa para iniciar una variable en PHP?", "", "#", "$", "&", "@", "$"));
+        questionLists.add(new QuestionList("¿Cuál de las siguientes es una superglobal en PHP?", "", "$_FILES", "$POST", "$GLOBALS", "$_SERVER", "$_SERVER"));
+        questionLists.add(new QuestionList("¿Qué extensión debe tener un archivo PHP?", "", ".html", ".xml", ".php", ".js", ".php"));
+        questionLists.add(new QuestionList("¿PHP puede interactuar con bases de datos?", "", "Sí", "No", "Solo MySQL", "Solo Oracle", "Sí"));
 
         return questionLists;
     }
 
-    private static List<QuestionList> htmlQuestions(){
-
+    // Lista de preguntas de HTML
+    private static List<QuestionList> htmlQuestions() {
         final List<QuestionList> questionLists = new ArrayList<>();
 
-        //crear objetos de clase de lista de preguntas y pasar una pregunta junto con la opción y la respuesta
-        final QuestionList question1 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question2 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-        final QuestionList question3 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question4 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-        final QuestionList question5 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question6 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-
-        //agregar todas las preguntas a la List<QuestionList>
-
-        questionLists.add(question1);
-        questionLists.add(question2);
-        questionLists.add(question3);
-        questionLists.add(question4);
-        questionLists.add(question5);
-        questionLists.add(question6);
-
-        return questionLists;
-    }
-    private static List<QuestionList> androidQuestions(){
-
-        final List<QuestionList> questionLists = new ArrayList<>();
-
-        //crear objetos de clase de lista de preguntas y pasar una pregunta junto con la opción y la respuesta
-        final QuestionList question1 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question2 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-        final QuestionList question3 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question4 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-        final QuestionList question5 = new QuestionList("¿Cual es el tamaño de una variable int?", "", "16bits","32bits","160bits","16bits","1bits");
-        final QuestionList question6 = new QuestionList("¿cual es el valor de una variable boolean?", "", "Verdadero","Verdadero o falso","Falso","Verdadero o falso","nulo");
-
-        //agregar todas las preguntas a la List<QuestionList>
-
-        questionLists.add(question1);
-        questionLists.add(question2);
-        questionLists.add(question3);
-        questionLists.add(question4);
-        questionLists.add(question5);
-        questionLists.add(question6);
+        questionLists.add(new QuestionList("¿Qué significa HTML?", "", "Hyper Trainer Marking Language", "Hyper Text Markup Language", "Hyper Text Marketing Language", "High Text Markup Language", "Hyper Text Markup Language"));
+        questionLists.add(new QuestionList("¿Qué etiqueta se usa para un salto de línea en HTML?", "", "<br>", "<bl>", "<lb>", "<ln>", "<br>"));
+        questionLists.add(new QuestionList("¿Cuál es la etiqueta correcta para una imagen?", "", "<img src=\"image.jpg\">", "<image src=\"image.jpg\">", "<img href=\"image.jpg\">", "<picture>", "<img src=\"image.jpg\">"));
+        questionLists.add(new QuestionList("¿Cómo creas un enlace en HTML?", "", "<a href=\"url\">", "<link>", "<href>", "<a>", "<a href=\"url\">"));
+        questionLists.add(new QuestionList("¿Cuál es el propósito del atributo 'alt' en la etiqueta <img>?", "", "Texto alternativo", "Tamaño", "Color", "Fuente", "Texto alternativo"));
+        questionLists.add(new QuestionList("¿Cómo puedes aplicar negrita al texto?", "", "<b>", "<bold>", "<strong>", "<n>", "<b>"));
 
         return questionLists;
     }
 
-    public static List<QuestionList> getQuestions(String seleccionNombreTema){
-        switch (seleccionNombreTema){
+    // Lista de preguntas de Android
+    private static List<QuestionList> androidQuestions() {
+        final List<QuestionList> questionLists = new ArrayList<>();
+
+        questionLists.add(new QuestionList("¿Qué es Android?", "", "Sistema operativo", "Lenguaje de programación", "Aplicación", "Navegador", "Sistema operativo"));
+        questionLists.add(new QuestionList("¿Quién desarrolló Android?", "", "Apple", "Microsoft", "Google", "IBM", "Google"));
+        questionLists.add(new QuestionList("¿Qué lenguaje se usa principalmente para el desarrollo de Android?", "", "C++", "Java", "Python", "Swift", "Java"));
+        questionLists.add(new QuestionList("¿Qué archivo contiene el manifiesto de la aplicación?", "", "main.xml", "AndroidManifest.xml", "app.xml", "manifest.xml", "AndroidManifest.xml"));
+        questionLists.add(new QuestionList("¿Qué es una Activity en Android?", "", "Una vista", "Un componente de UI", "Una clase", "Un controlador", "Una clase"));
+        questionLists.add(new QuestionList("¿Cuál es la última versión de Android?", "", "Oreo", "Pie", "Lollipop", "Depende de la fecha", "Depende de la fecha"));
+
+        return questionLists;
+    }
+
+    // Método para obtener preguntas basado en el tema seleccionado
+    public static List<QuestionList> getQuestions(String seleccionNombreTema) {
+        switch (seleccionNombreTema) {
             case "java":
                 return javaQuestions();
             case "php":
