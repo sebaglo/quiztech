@@ -14,7 +14,7 @@ public class QuestionBank {
     private static void loadJavaQuestions() {
         javaQuestions = new ArrayList<>();
         javaQuestions.add(new QuestionList("¿Cuál es el tamaño de una variable int?", "", "16bits", "32bits", "160bits", "1bits", "32bits"));
-        javaQuestions.add(new QuestionList("¿Cuál es el valor de una variable boolean?", "", "Verdadero", "Verdadero o falso", "Falso", "Ninguno", "Verdadero o falso"));
+        javaQuestions.add(new QuestionList("¿Cuál es el valor de una variable boolean?", "", "2", "0 o 1", "1", "45", "0 o 1"));
         javaQuestions.add(new QuestionList("¿En qué año se creó Java?", "", "1978", "1990", "1890", "1995", "1995"));
         javaQuestions.add(new QuestionList("¿Existen más de 2 tipos de Intent?", "", "Nulo", "Falso", "Verdadero", "No existe", "Verdadero"));
         javaQuestions.add(new QuestionList("¿Qué es Java?", "", "Lenguaje de programación", "Un programa", "Un juego", "Un sistema operativo", "Lenguaje de programación"));

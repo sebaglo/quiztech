@@ -141,8 +141,8 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             // Last question reached, navigate to results
             Intent intent = new Intent(QuizActivity.this, QuizResultados.class);
-            intent.putExtra("Correcto", getCorrectAnswer());
-            intent.putExtra("Incorrecto", getInCorrectAnswer());
+            intent.putExtra("Respuestas Correctas", getCorrectAnswer());
+            intent.putExtra("Respuetas Incorrectas", getInCorrectAnswer());
             startActivity(intent);
             finish();
         }
@@ -195,8 +195,8 @@ public class QuizActivity extends AppCompatActivity {
     private void showTimeUp() {
         Toast.makeText(QuizActivity.this, "Se acabó el tiempo", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(QuizActivity.this, QuizResultados.class);
-        intent.putExtra("Correcto", getCorrectAnswer());
-        intent.putExtra("Incorrecto", getInCorrectAnswer());
+        intent.putExtra("Respuestas Correctas", getCorrectAnswer());
+        intent.putExtra("Respuestas Incorrectas", getInCorrectAnswer());
         startActivity(intent);
         finish();
     }
@@ -204,7 +204,7 @@ public class QuizActivity extends AppCompatActivity {
     private int getCorrectAnswer() {
         int correctAnswer = 0;
         for (QuestionList question : questionLists) {
-            if (question.getUsuarioSeleccionadoAnswer().equals(question.getAnswer())) {
+            if (question.getUsuarioSeleccionadoAnswer() != null && question.getUsuarioSeleccionadoAnswer().equals(question.getAnswer())) {
                 correctAnswer++;
             }
         }
@@ -214,7 +214,7 @@ public class QuizActivity extends AppCompatActivity {
     private int getInCorrectAnswer() {
         int incorrectAnswer = 0;
         for (QuestionList question : questionLists) {
-            if (!question.getUsuarioSeleccionadoAnswer().equals(question.getAnswer())) {
+            if (question.getUsuarioSeleccionadoAnswer() != null && !question.getUsuarioSeleccionadoAnswer().equals(question.getAnswer())) {
                 incorrectAnswer++;
             }
         }
