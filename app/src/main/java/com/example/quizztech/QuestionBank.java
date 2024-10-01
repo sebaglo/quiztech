@@ -1,13 +1,20 @@
 package com.example.quizztech;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class QuestionBank {
 
-    // Lista de preguntas de Java
+    private static List<QuestionList> javaQuestions;
+    private static List<QuestionList> phpQuestions;
+    private static List<QuestionList> androidQuestions;
+    private static List<QuestionList> htmlQuestions;
+
+    // Cargar preguntas de Java
     private static List<QuestionList> javaQuestions() {
-        final List<QuestionList> questionLists = new ArrayList<>();
+        List<QuestionList> questionLists = new ArrayList<>();
 
         questionLists.add(new QuestionList("¿Cuál es el tamaño de una variable int?", "", "16bits", "32bits", "160bits", "1bits", "32bits"));
         questionLists.add(new QuestionList("¿Cuál es el valor de una variable boolean?", "", "Verdadero", "Verdadero o falso", "Falso", "Ninguno", "Verdadero o falso"));
@@ -19,9 +26,9 @@ public class QuestionBank {
         return questionLists;
     }
 
-    // Lista de preguntas de PHP
-    private static List<QuestionList> phpQuestions() {
-        final List<QuestionList> questionLists = new ArrayList<>();
+    // Cargar preguntas de PHP
+    private static List<QuestionList> cargarPhpQuestions() {
+        List<QuestionList> questionLists = new ArrayList<>();
 
         questionLists.add(new QuestionList("¿Qué significa PHP?", "", "Personal Home Page", "PHP: Hypertext Preprocessor", "Pre Hypertext Processor", "Página personal de inicio", "PHP: Hypertext Preprocessor"));
         questionLists.add(new QuestionList("¿PHP es un lenguaje de?", "", "Programación", "Scripting del lado del servidor", "Marcado", "Estilo", "Scripting del lado del servidor"));
@@ -33,9 +40,9 @@ public class QuestionBank {
         return questionLists;
     }
 
-    // Lista de preguntas de HTML
-    private static List<QuestionList> htmlQuestions() {
-        final List<QuestionList> questionLists = new ArrayList<>();
+    // Cargar preguntas de HTML
+    private static List<QuestionList> cargarHtmlQuestions() {
+        List<QuestionList> questionLists = new ArrayList<>();
 
         questionLists.add(new QuestionList("¿Qué significa HTML?", "", "Hyper Trainer Marking Language", "Hyper Text Markup Language", "Hyper Text Marketing Language", "High Text Markup Language", "Hyper Text Markup Language"));
         questionLists.add(new QuestionList("¿Qué etiqueta se usa para un salto de línea en HTML?", "", "<br>", "<bl>", "<lb>", "<ln>", "<br>"));
@@ -44,12 +51,13 @@ public class QuestionBank {
         questionLists.add(new QuestionList("¿Cuál es el propósito del atributo 'alt' en la etiqueta <img>?", "", "Texto alternativo", "Tamaño", "Color", "Fuente", "Texto alternativo"));
         questionLists.add(new QuestionList("¿Cómo puedes aplicar negrita al texto?", "", "<b>", "<bold>", "<strong>", "<n>", "<b>"));
 
+
         return questionLists;
     }
 
-    // Lista de preguntas de Android
-    private static List<QuestionList> androidQuestions() {
-        final List<QuestionList> questionLists = new ArrayList<>();
+    // Cargar preguntas de Android
+    private static List<QuestionList> cargarAndroidQuestions() {
+        List<QuestionList> questionLists = new ArrayList<>();
 
         questionLists.add(new QuestionList("¿Qué es Android?", "", "Sistema operativo", "Lenguaje de programación", "Aplicación", "Navegador", "Sistema operativo"));
         questionLists.add(new QuestionList("¿Quién desarrolló Android?", "", "Apple", "Microsoft", "Google", "IBM", "Google"));
@@ -61,17 +69,17 @@ public class QuestionBank {
         return questionLists;
     }
 
-    // Método para obtener preguntas basado en el tema seleccionado
-    public static List<QuestionList> getQuestions(String seleccionNombreTema) {
-        switch (seleccionNombreTema) {
+    // Método para obtener la lista de preguntas según el tema
+    static List<QuestionList> getQuestions(String seleccionNombreTema) {
+        switch (seleccionNombreTema.toLowerCase()) {
             case "java":
-                return javaQuestions();
+                return javaQuestions;
             case "php":
-                return phpQuestions();
+                return phpQuestions;
             case "android":
-                return androidQuestions();
+                return androidQuestions;
             default:
-                return htmlQuestions();
+                return htmlQuestions;
         }
     }
 }

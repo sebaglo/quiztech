@@ -1,7 +1,6 @@
 package com.example.quizztech;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private String seleccionNombreTema = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,64 +22,44 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout html = findViewById(R.id.htmlLayout);
         final LinearLayout android = findViewById(R.id.androidLayout);
 
-        final Button StartBtn = findViewById(R.id.startQuizBtn);
+        final Button startBtn = findViewById(R.id.startQuizBtn);
 
         java.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 seleccionNombreTema = "java";
-
-                java.setBackgroundResource(R.drawable.round_back_white_stroke10);
-
-                php.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                html.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                android.setBackgroundResource(R.drawable.round_back_white_stroke10);
+                updateBackgrounds(java, php, html, android);
             }
         });
 
         php.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 seleccionNombreTema = "php";
-
-                php.setBackgroundResource(R.drawable.round_back_white_stroke10);
-
-                java.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                html.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                android.setBackgroundResource(R.drawable.round_back_white_stroke10);
+                updateBackgrounds(php, java, html, android);
             }
         });
 
         html.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 seleccionNombreTema = "html";
-
-                html.setBackgroundResource(R.drawable.round_back_white_stroke10);
-
-                php.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                java.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                android.setBackgroundResource(R.drawable.round_back_white_stroke10);
+                updateBackgrounds(html, php, java, android);
             }
         });
 
         android.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 seleccionNombreTema = "android";
-
-                android.setBackgroundResource(R.drawable.round_back_white_stroke10);
-
-                php.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                java.setBackgroundResource(R.drawable.round_back_white_stroke10);
-                html.setBackgroundResource(R.drawable.round_back_white_stroke10); // Corregido
+                updateBackgrounds(android, php, java, html);
             }
         });
 
-        StartBtn.setOnClickListener(new View.OnClickListener() {
+        startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(seleccionNombreTema.isEmpty()){
+                if (seleccionNombreTema.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Seleccione un Tema", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(MainActivity.this, QuizActivity.class);
@@ -88,5 +68,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void updateBackgrounds(LinearLayout selected, LinearLayout... others) {
+        selected.setBackgroundResource(R.drawable.round_back_white_stroke10);
+        for (LinearLayout layout : others) {
+            layout.setBackgroundResource(R.drawable.round_back_white_stroke10);
+        }
     }
 }
