@@ -7,21 +7,15 @@
     android:background="@drawable/background"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ActivityLogin">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:background="@drawable/custom_edit"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"/>
 
     <ImageView
         android:id="@+id/imageSesion"
-        android:layout_width="107dp"
-        android:layout_height="100dp"
+        android:layout_width="160dp"
+        android:layout_height="141dp"
         android:layout_gravity="center"
+        android:layout_marginTop="50dp"
         tools:srcCompat="@drawable/sesion" />
 
     <EditText
@@ -29,14 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
         android:textColorHint="@color/white"
         android:textStyle="bold"
         android:inputType="text"
-        android:hint="Nombre"/>
+        android:hint="Nombre de Usuario"/>
 
     <EditText
         android:id="@+id/txtContrasena"
@@ -65,8 +59,8 @@
         android:onClick="iniciarSesion"/>
 
     <TextView
-        android:id="@+id/textRegistro"
-        android:layout_width="match_parent"
+        android:id="@+id/txtRegistroL"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="50dp"
@@ -76,7 +70,9 @@
         android:text="¿Aun no te has Registrado? Registrate Aqui"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:clickable="true"
+        />
 
 
 </LinearLayout>

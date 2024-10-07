@@ -2,16 +2,13 @@ package com.example.quizztech;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,14 +21,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Encontrar las vistas
         final LinearLayout java = findViewById(R.id.javaLayout);
         final LinearLayout php = findViewById(R.id.phpLayout);
         final LinearLayout html = findViewById(R.id.htmlLayout);
         final LinearLayout android = findViewById(R.id.androidLayout);
-
         final Button startBtn = findViewById(R.id.startQuizBtn);
         musicCheckBox = findViewById(R.id.musicaCheckBox);
+
+        // Inicializar el MediaPlayer
         mp = MediaPlayer.create(this, R.raw.emociones);
+
+        // Controlar el CheckBox de música
         musicCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Manejar la selección de temas
         java.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Cuando se presiona el botón para empezar el quiz
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // selección de temas
+    // Selección de temas
     private void updateThemeSelection(LinearLayout selectedLayout) {
         selectedLayout.setBackgroundResource(R.drawable.round_back_white_stroke10);
         resetOtherLayouts(selectedLayout);
@@ -112,6 +116,40 @@ public class MainActivity extends AppCompatActivity {
         }
         if (selectedLayout != findViewById(R.id.androidLayout)) {
             findViewById(R.id.androidLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
+        }
+    }
+
+    // Detener la música cuando se cambie de Activity
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Si el CheckBox no está marcado, detener la música
+        if (mp != null && mp.isPlaying() && !musicCheckBox.isChecked()) {
+            mp.pause();
+            mp.seekTo(0);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mp != null) {
+            if (mp.isPlaying()) {
+                mp.stop();
+            }
+            mp.release();
+            mp = null;
+        }
+    }
+
+    // Detener la música cuando se presiona el botón de retroceso
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mp != null && mp.isPlaying()) {
+            mp.stop();
+            mp.release();
+            mp = null;
         }
     }
 }

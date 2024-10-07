@@ -2,8 +2,10 @@ package com.example.quizztech;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +20,11 @@ import java.util.TimerTask;
 
 public class QuizActivity extends AppCompatActivity {
 
+    private boolean isMusicEnable;
+    private MediaPlayer mp;
     private TextView questions;
     private TextView question;
+    private CheckBox musicCheckBox;
 
     private AppCompatButton option1, option2, option3, option4;
     private AppCompatButton nextBtn;
@@ -36,6 +41,8 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        musicCheckBox = findViewById(R.id.musicaCheckBox);
+        mp = MediaPlayer.create(this, R.raw.emociones);
         final ImageView backBtn = findViewById(R.id.backBtn);
         final TextView tiempo = findViewById(R.id.Tiempo);
         final TextView seleccioneNombreTema = findViewById(R.id.seleccionTema);
@@ -95,6 +102,21 @@ public class QuizActivity extends AppCompatActivity {
                     Toast.makeText(QuizActivity.this, "Por favor seleccione una opción", Toast.LENGTH_SHORT).show();
                 } else {
                     changeToNextQuestion();
+                }
+            }
+        });
+
+        // Musica en la Activity del Quiz
+        musicCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(musicCheckBox.isChecked()){
+                    mp.start();
+                } else {
+                    if(mp.isPlaying()){
+                        mp.pause();
+                        mp.seekTo(0);
+                    }
                 }
             }
         });
@@ -224,6 +246,11 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (mp != null && mp.isPlaying()) {
+            mp.stop();
+            mp.release();
+            mp = null;
+        }
         cancelTimerAndReturn();
     }
 
@@ -252,4 +279,20 @@ public class QuizActivity extends AppCompatActivity {
             option4.setTextColor(Color.WHITE);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Detenemos la música si está sonando y liberamos los recursos
+        if (mp != null) {
+            if (mp.isPlaying()) {
+                mp.stop();
+            }
+            mp.release();
+            mp = null;
+        }
+    }
+
+
 }
+

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "278075116156",
+    "project_id": "quizztech-49976",
+    "storage_bucket": "quizztech-49976.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278075116156:android:cfebc47e3d9c6aaf63d7f9",
+        "android_client_info": {
+          "package_name": "com.example.quizztech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeyy54_qsPPHLCtfbB8AfHbxl3S4yrloE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,5 @@
 package com.example.quizztech;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,38 +10,44 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.quizztech.RegistroActivity;
-
 public class ActivityLogin extends AppCompatActivity {
 
     private EditText txtNombre, txtContrasena;
     private Button btnSesion;
+    private TextView txtRegistroL;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         // Referenciar los campos de texto y el textView
         txtNombre = findViewById(R.id.txtNombre);
         txtContrasena = findViewById(R.id.txtContrasena);
         btnSesion = findViewById(R.id.btnSesion);
+        txtRegistroL = findViewById(R.id.txtRegistroL);
 
+        // Acción para el texto "¿Aún no te has registrado?"
+        txtRegistroL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navega a la actividad de registro
+                Intent intent = new Intent(ActivityLogin.this, RegistroActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        // Escuchar el clic en el TextView de registro
+        // Acción del botón de iniciar sesión
         btnSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Aquí puedes navegar a una nueva actividad de registro
-                Intent intent = new Intent(ActivityLogin.this, ActivityInicio.class);
-                startActivity(intent);
+                iniciarSesion();
             }
         });
     }
 
-    // Método para manejar el evento de inicio de sesión (por ejemplo, cuando un botón de iniciar sesión sea añadido)
-    public void iniciarSesion(View view) {
+    // Método para manejar el evento de inicio de sesión
+    public void iniciarSesion() {
         String nombre = txtNombre.getText().toString();
         String contraseña = txtContrasena.getText().toString();
 
@@ -50,14 +55,19 @@ public class ActivityLogin extends AppCompatActivity {
         if (nombre.isEmpty() || contraseña.isEmpty()) {
             Toast.makeText(this, "Por favor, ingresa ambos campos", Toast.LENGTH_SHORT).show();
         } else {
-            // Aquí puedes agregar la lógica de autenticación
-            Toast.makeText(this, "Iniciando sesión...", Toast.LENGTH_SHORT).show();
+            // Simulando autenticación exitosa para demostración
+            if (nombre.equals("oscarito") && contraseña.equals("1234")) {
+                // Si la autenticación es exitosa
+                Toast.makeText(this, "Iniciando sesión...", Toast.LENGTH_SHORT).show();
 
-            // Por ejemplo, si la autenticación es exitosa, puedes navegar a la siguiente pantalla
-            // Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-            // startActivity(intent);
+                // Navegar a la actividad principal
+                Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+                startActivity(intent);
+                finish();  // Cerrar la actividad actual
+            } else {
+                // Si el nombre de usuario o la contraseña no son correctos
+                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
-
-
