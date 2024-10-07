@@ -15,42 +15,68 @@
         android:layout_margin="30dp"
         android:background="@drawable/custom_edit"
         app:cardCornerRadius="30dp"
-        app:cardElevation="20dp">
+        app:cardElevation="20dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:padding="24dp">
-            
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Inicio de Sesion"
-                android:textSize="20dp"
-                android:background="@drawable/round_back_green20"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
-            
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/custom_edit"
-                android:drawableLeft=""
-                android:drawablePadding="8dp"
-                android:hint="Usuario"
-                android:ems="10"
-                android:inputType="text"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"/>
+    <ImageView
+        android:id="@+id/imageSesion"
+        android:layout_width="107dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        tools:srcCompat="@drawable/sesion" />
 
-        </LinearLayout>
+    <EditText
+        android:id="@+id/txtNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:textColorHint="@color/white"
+        android:textStyle="bold"
+        android:inputType="text"
+        android:hint="Nombre"/>
 
-    </androidx.cardview.widget.CardView>
+    <EditText
+        android:id="@+id/txtContrasena"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColorHint="@color/white"
+        android:textStyle="bold"
+        android:inputType="textPassword"
+        android:hint="Contraseña"/>
 
+    <Button
+        android:id="@+id/btnSesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@drawable/round_back_green20"
+        android:text="Iniciar Sesion"
+        android:onClick="iniciarSesion"/>
+
+    <TextView
+        android:id="@+id/textRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="10dp"
+        android:text="¿Aun no te has Registrado? Registrate Aqui"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>
