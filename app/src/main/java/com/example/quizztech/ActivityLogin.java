@@ -1,5 +1,6 @@
 package com.example.quizztech;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,21 +15,35 @@ public class ActivityLogin extends AppCompatActivity {
 
     private EditText txtNombre, txtContrasena;
     private Button btnSesion;
-    private TextView txtRegistroL;
+    private Button btnRegistroUsuario;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Referenciar los campos de texto y el textView
+        // Referenciar los campos de texto y el TextView
         txtNombre = findViewById(R.id.txtNombre);
         txtContrasena = findViewById(R.id.txtContrasena);
         btnSesion = findViewById(R.id.btnSesion);
-        txtRegistroL = findViewById(R.id.txtRegistroL);
+        btnRegistroUsuario = findViewById(R.id.btnRegistroUsuario);
+        if (btnRegistroUsuario != null) {
+            btnRegistroUsuario.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Navegar a la actividad de registro
+                    Intent intent = new Intent(ActivityLogin.this, RegistroActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            // En caso de que btnRegistroUsuario sea null
+            Toast.makeText(this, "Error al encontrar el botón de registro", Toast.LENGTH_SHORT).show();
+        }
 
         // Acción para el texto "¿Aún no te has registrado?"
-        txtRegistroL.setOnClickListener(new View.OnClickListener() {
+        btnRegistroUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Navega a la actividad de registro

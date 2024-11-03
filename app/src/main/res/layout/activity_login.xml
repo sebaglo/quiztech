@@ -58,20 +58,20 @@
         android:text="Iniciar Sesion"
         android:onClick="iniciarSesion"/>
 
-    <TextView
-        android:id="@+id/txtRegistroL"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnRegistroUsuario"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:text="¿Aun no te has Registrado? Registrate Aqui"
+        android:text="Registrate Aqui"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:clickable="true"
+        android:onClick="Registrarse"
         />
 
 

@@ -4,21 +4,25 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegistroActivity extends AppCompatActivity {
 
-    private EditText txtNombreRegistro, txtEmailRegistro, txtContrasenaRegistro, btnRegistrar;
+    private EditText txtNombreRegistro, txtEmailRegistro, txtContrasenaRegistro;
+    private Button btnRegistrar;
     private FirebaseFirestore mfirestore;
 
     @SuppressLint("WrongViewCast")
@@ -29,6 +33,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         // Inicializamos Firebase
         mfirestore = FirebaseFirestore.getInstance();
+        FirebaseApp.initializeApp(this);
 
         // Referencias a los campos de entrada
         btnRegistrar = findViewById(R.id.btnRegistrar);
@@ -45,17 +50,17 @@ public class RegistroActivity extends AppCompatActivity {
                 String ContraseñaUsuario = txtContrasenaRegistro.getText().toString().trim();
 
                 if (NombreUsuario.isEmpty() || EmailUsuario.isEmpty() || ContraseñaUsuario.isEmpty()) {
-                    // Mostramos el mensaje si los campos están vacíos
+
                     Toast.makeText(getApplicationContext(), "Por favor, ingresa todos los campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Si los campos están llenos, enviamos los datos a Firebase
+
                     postUsuario(NombreUsuario, EmailUsuario, ContraseñaUsuario);
                 }
             }
         });
     }
 
-    // Método para agregar el usuario a Firebase
+    // agregar el usuario a Firebase
     private void postUsuario(String nombreUsuario, String emailUsuario, String contraseñaUsuario) {
         Map<String, Object> map = new HashMap<>();
         map.put("Nombre", nombreUsuario);
@@ -70,7 +75,9 @@ public class RegistroActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(RegistroActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish(); // Cierra la actividad actual para evitar que el usuario regrese a ella
+                finish();
+
+
             }
         }).addOnFailureListener(e -> {
             // Si ocurre un error al registrar, mostramos un mensaje de error
