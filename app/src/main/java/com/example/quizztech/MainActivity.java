@@ -22,6 +22,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Mostrar la bienveida en la activity de menú
+        Bundle extras= getIntent().getExtras();
+        if (extras != null) {
+            String nombreUsuario = extras.getString("nombreUsuario");
+            String emailUsuario = extras.getString("emailUsuario");
+
+            Toast.makeText(this, "Bienvenido: " + nombreUsuario + "\nEmail: " + emailUsuario, Toast.LENGTH_SHORT).show();
+        }
+
         // Encontrar las vistas
         final LinearLayout java = findViewById(R.id.javaLayout);
         final LinearLayout php = findViewById(R.id.phpLayout);

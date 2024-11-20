@@ -49,18 +49,20 @@ public class RegistroActivity extends AppCompatActivity {
                 String EmailUsuario = txtEmailRegistro.getText().toString().trim();
                 String ContraseñaUsuario = txtContrasenaRegistro.getText().toString().trim();
 
+                // Validaciones
                 if (NombreUsuario.isEmpty() || EmailUsuario.isEmpty() || ContraseñaUsuario.isEmpty()) {
-
                     Toast.makeText(getApplicationContext(), "Por favor, ingresa todos los campos", Toast.LENGTH_SHORT).show();
+                } else if (!EmailUsuario.contains("@")) {
+                    Toast.makeText(getApplicationContext(), "Por favor, ingresa un correo válido", Toast.LENGTH_SHORT).show();
                 } else {
-
+                    // Llamar al método para registrar el usuario
                     postUsuario(NombreUsuario, EmailUsuario, ContraseñaUsuario);
                 }
             }
         });
     }
 
-    // agregar el usuario a Firebase
+    // Método para registrar usuario y mostrar los datos
     private void postUsuario(String nombreUsuario, String emailUsuario, String contraseñaUsuario) {
         Map<String, Object> map = new HashMap<>();
         map.put("Nombre", nombreUsuario);
@@ -71,16 +73,19 @@ public class RegistroActivity extends AppCompatActivity {
         mfirestore.collection("usuarios").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                // Si el registro es exitoso, mostramos un mensaje y cerramos la actividad
-                Toast.makeText(getApplicationContext(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                // Mostrar mensaje con los datos del usuario
+                Toast.makeText(getApplicationContext(), "Usuario registrado correctamente:\nNombre: " + nombreUsuario +
+                        "\nEmail: " + emailUsuario, Toast.LENGTH_LONG).show();
+
+                // Pasar los datos a MainActivity
                 Intent intent = new Intent(RegistroActivity.this, MainActivity.class);
+                intent.putExtra("nombreUsuario", nombreUsuario);
+                intent.putExtra("emailUsuario", emailUsuario);
                 startActivity(intent);
                 finish();
-
-
             }
         }).addOnFailureListener(e -> {
-            // Si ocurre un error al registrar, mostramos un mensaje de error
+            // Mostrar mensaje de error
             Toast.makeText(getApplicationContext(), "Error al registrar usuario: " + e.getMessage(), Toast.LENGTH_LONG).show();
         });
     }
