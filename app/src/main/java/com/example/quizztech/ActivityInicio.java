@@ -20,7 +20,7 @@ public class ActivityInicio extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
 
 
-
+        Button btnSalir = findViewById(R.id.btnSalir);
         Button playButton = findViewById(R.id.playBtnSesion);
         Button btnsesionLogin = findViewById(R.id.btnsesionLogin);
 
@@ -29,6 +29,13 @@ public class ActivityInicio extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityInicio.this, ActivityLogin.class);
                 startActivity(intent);
+            }
+        });
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();  // Finaliza la actividad actual y regresa a la anterior
             }
         });
 
