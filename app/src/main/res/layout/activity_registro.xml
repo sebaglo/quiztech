@@ -59,6 +59,14 @@
         android:textStyle="bold"
         android:textSize="15dp"/>
 
+    <Button
+        android:id="@+id/btnRegresar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="regresar"
+        android:textStyle="bold"
+        android:textSize="15sp"/>
+
 
 
 </LinearLayout>

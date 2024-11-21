@@ -23,6 +23,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     private EditText txtNombreRegistro, txtEmailRegistro, txtContrasenaRegistro;
     private Button btnRegistrar;
+    private Button btnRegresar;
     private FirebaseFirestore mfirestore;
 
     @SuppressLint("WrongViewCast")
@@ -37,6 +38,7 @@ public class RegistroActivity extends AppCompatActivity {
 
         // Referencias a los campos de entrada
         btnRegistrar = findViewById(R.id.btnRegistrar);
+        btnRegresar = findViewById(R.id.btnRegresar);
         txtNombreRegistro = findViewById(R.id.txtNombreRegistro);
         txtEmailRegistro = findViewById(R.id.txtEmailRegistro);
         txtContrasenaRegistro = findViewById(R.id.txtContrasenaRegistro);
@@ -58,6 +60,13 @@ public class RegistroActivity extends AppCompatActivity {
                     // Llamar al método para registrar el usuario
                     postUsuario(NombreUsuario, EmailUsuario, ContraseñaUsuario);
                 }
+            }
+        });
+
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();  // Finaliza la actividad actual y regresa a la anterior
             }
         });
     }
