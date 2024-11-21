@@ -19,14 +19,20 @@ public class QuizResultados extends AppCompatActivity {
         final AppCompatButton startNewBtn = findViewById(R.id.btnVolverjugar);
         final TextView correctAnswer = findViewById(R.id.respuestaCorrecta);
         final TextView incorrectAnswers = findViewById(R.id.respuestaIncorrecta);
+        final TextView finalScore = findViewById(R.id.textPuntajeFinal); // Agregado para mostrar el puntaje final.
 
         // Obtener respuestas correctas e incorrectas del Intent
         final int getCorrectAnswer = getIntent().getIntExtra("Respuestas Correctas", 0);
         final int getIncorrectAnswer = getIntent().getIntExtra("Respuestas Incorrectas", 0);
 
-        // Mostrar las respuestas en los TextViews
-        correctAnswer.setText(String.valueOf(getCorrectAnswer));
-        incorrectAnswers.setText(String.valueOf(getIncorrectAnswer));
+        // Calcular puntaje final
+        int totalQuestions = getCorrectAnswer + getIncorrectAnswer;
+        int score = (int) ((getCorrectAnswer / (float) totalQuestions) * 100);
+
+        // Mostrar los resultados en los TextViews
+        correctAnswer.setText("Respuestas Correctas: " + getCorrectAnswer);
+        incorrectAnswers.setText("Respuestas Incorrectas: " + getIncorrectAnswer);
+        finalScore.setText("Puntaje Final: " + score + "%");
 
         // Configurar el botón para reiniciar el quiz
         startNewBtn.setOnClickListener(new View.OnClickListener() {

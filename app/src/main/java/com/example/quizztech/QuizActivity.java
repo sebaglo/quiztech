@@ -20,7 +20,6 @@ import java.util.TimerTask;
 
 public class QuizActivity extends AppCompatActivity {
 
-    private boolean isMusicEnable;
     private MediaPlayer mp;
     private TextView questions;
     private TextView question;
@@ -32,6 +31,7 @@ public class QuizActivity extends AppCompatActivity {
     private Timer quizTimer;
     private int totalTimeInMins = 1;
     private int seconds = 0;
+
     private List<QuestionList> questionLists = new ArrayList<>();
     private int curretQuestionPosition = 0;
     private String seleccioneOpcionByUsuario = "";
@@ -41,6 +41,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        // Inicializar vistas
         musicCheckBox = findViewById(R.id.musicaCheckBox);
         mp = MediaPlayer.create(this, R.raw.emociones);
         final ImageView backBtn = findViewById(R.id.backBtn);
@@ -49,86 +50,57 @@ public class QuizActivity extends AppCompatActivity {
 
         questions = findViewById(R.id.questions);
         question = findViewById(R.id.question);
-
         option1 = findViewById(R.id.opcion1);
         option2 = findViewById(R.id.opcion2);
         option3 = findViewById(R.id.opcion3);
         option4 = findViewById(R.id.opcion4);
-
         nextBtn = findViewById(R.id.nextBtn);
-        final String getSeleccioneNombreTema = getIntent().getStringExtra("seleccioneTema");
 
+        // Obtener el tema seleccionado
+        final String getSeleccioneNombreTema = getIntent().getStringExtra("seleccioneTema");
         seleccioneNombreTema.setText(getSeleccioneNombreTema);
 
+        // Obtener las preguntas para el tema
         questionLists = QuestionBank.getQuestions(getSeleccioneNombreTema);
 
+        // Iniciar el temporizador
         startTimer(tiempo);
 
-        // Load the first question
+        // Cargar la primera pregunta
         loadQuestion();
 
-        option1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleOptionClick(option1);
+        // Listener para las opciones
+        option1.setOnClickListener(v -> handleOptionClick(option1));
+        option2.setOnClickListener(v -> handleOptionClick(option2));
+        option3.setOnClickListener(v -> handleOptionClick(option3));
+        option4.setOnClickListener(v -> handleOptionClick(option4));
+
+        // Botón siguiente
+        nextBtn.setOnClickListener(v -> {
+            if (seleccioneOpcionByUsuario.isEmpty()) {
+                Toast.makeText(QuizActivity.this, "Por favor seleccione una opción", Toast.LENGTH_SHORT).show();
+            } else {
+                changeToNextQuestion();
             }
         });
 
-        option2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleOptionClick(option2);
-            }
-        });
-
-        option3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleOptionClick(option3);
-            }
-        });
-
-        option4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleOptionClick(option4);
-            }
-        });
-
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (seleccioneOpcionByUsuario.isEmpty()) {
-                    Toast.makeText(QuizActivity.this, "Por favor seleccione una opción", Toast.LENGTH_SHORT).show();
-                } else {
-                    changeToNextQuestion();
+        // Checkbox de música
+        musicCheckBox.setOnClickListener(v -> {
+            if (musicCheckBox.isChecked()) {
+                mp.start();
+            } else {
+                if (mp.isPlaying()) {
+                    mp.pause();
+                    mp.seekTo(0);
                 }
             }
         });
 
-        // Musica en la Activity del Quiz
-        musicCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(musicCheckBox.isChecked()){
-                    mp.start();
-                } else {
-                    if(mp.isPlaying()){
-                        mp.pause();
-                        mp.seekTo(0);
-                    }
-                }
-            }
-        });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelTimerAndReturn();
-            }
-        });
+        // Botón de retroceso
+        backBtn.setOnClickListener(v -> cancelTimerAndReturn());
     }
 
+    // Cargar la pregunta actual
     private void loadQuestion() {
         questions.setText((curretQuestionPosition + 1) + "/" + questionLists.size());
         question.setText(questionLists.get(curretQuestionPosition).getQuestion());
@@ -141,10 +113,8 @@ public class QuizActivity extends AppCompatActivity {
     private void handleOptionClick(AppCompatButton selectedOption) {
         if (seleccioneOpcionByUsuario.isEmpty()) {
             seleccioneOpcionByUsuario = selectedOption.getText().toString();
-
             selectedOption.setBackgroundResource(R.drawable.round_back_red10);
             selectedOption.setTextColor(Color.WHITE);
-
             revealAnswer();
             questionLists.get(curretQuestionPosition).setUsuarioSeleccionadoAnswer(seleccioneOpcionByUsuario);
         }
@@ -152,21 +122,15 @@ public class QuizActivity extends AppCompatActivity {
 
     private void changeToNextQuestion() {
         curretQuestionPosition++;
-
         if ((curretQuestionPosition + 1) == questionLists.size()) {
             nextBtn.setText("Enviar");
         }
 
         if (curretQuestionPosition < questionLists.size()) {
             resetOptions();
-            loadQuestion(); // Load the next question
+            loadQuestion();
         } else {
-            // Last question reached, navigate to results
-            Intent intent = new Intent(QuizActivity.this, QuizResultados.class);
-            intent.putExtra("Respuestas Correctas", getCorrectAnswer());
-            intent.putExtra("Respuetas Incorrectas", getInCorrectAnswer());
-            startActivity(intent);
-            finish();
+            navigateToResults();
         }
     }
 
@@ -197,12 +161,11 @@ public class QuizActivity extends AppCompatActivity {
                         seconds = 59;
                     } else {
                         quizTimer.cancel();
-                        showTimeUp();
+                        runOnUiThread(() -> showTimeUp());
                     }
                 } else {
                     seconds--;
                 }
-
                 runOnUiThread(() -> updateTimer(timerTextView));
             }
         }, 0, 1000);
@@ -216,6 +179,10 @@ public class QuizActivity extends AppCompatActivity {
 
     private void showTimeUp() {
         Toast.makeText(QuizActivity.this, "Se acabó el tiempo", Toast.LENGTH_SHORT).show();
+        navigateToResults();
+    }
+
+    private void navigateToResults() {
         Intent intent = new Intent(QuizActivity.this, QuizResultados.class);
         intent.putExtra("Respuestas Correctas", getCorrectAnswer());
         intent.putExtra("Respuestas Incorrectas", getInCorrectAnswer());
@@ -234,24 +201,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private int getInCorrectAnswer() {
-        int incorrectAnswer = 0;
-        for (QuestionList question : questionLists) {
-            if (question.getUsuarioSeleccionadoAnswer() != null && !question.getUsuarioSeleccionadoAnswer().equals(question.getAnswer())) {
-                incorrectAnswer++;
-            }
-        }
-        return incorrectAnswer;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (mp != null && mp.isPlaying()) {
-            mp.stop();
-            mp.release();
-            mp = null;
-        }
-        cancelTimerAndReturn();
+        return questionLists.size() - getCorrectAnswer();
     }
 
     private void cancelTimerAndReturn() {
@@ -283,7 +233,6 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Detenemos la música si está sonando y liberamos los recursos
         if (mp != null) {
             if (mp.isPlaying()) {
                 mp.stop();
@@ -291,8 +240,14 @@ public class QuizActivity extends AppCompatActivity {
             mp.release();
             mp = null;
         }
+        if (quizTimer != null) {
+            quizTimer.cancel();
+        }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        cancelTimerAndReturn();
+    }
 }
-
