@@ -56,16 +56,33 @@
             android:layout_marginTop="5dp"
             android:textColor="#DD2C00"
             />
+
     </LinearLayout>
-    
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnVolverjugar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Volver a jugar"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/round_back_green20"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"/>
+        android:layout_margin="60dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="112dp"
+        android:background="@drawable/round_back_green20"
+        android:text="Volver a jugar"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnSalir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnVolverjugar"
+        android:layout_marginTop="54dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:text="Salir"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="@drawable/round_back_green20"/>
+
 
 </RelativeLayout>

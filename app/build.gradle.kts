@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    id("com.google.gms.google-services") // Asegúrate de tener este plugin para Firebase
+    id("com.google.gms.google-services")
 }
 
 android {

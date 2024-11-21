@@ -18,7 +18,22 @@
         android:layout_marginEnd="80dp"
         android:src="@drawable/icono"
         android:transitionName="quizIconTransition"/>
-    
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/startQuizBtn"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Regresar"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:background="@drawable/round_back_green20"
+        android:textColor="#FFFFFF"
+        />
+
     <CheckBox
         android:id="@+id/musicaCheckBox"
         android:layout_width="wrap_content"
@@ -180,7 +195,7 @@
         android:layout_height="wrap_content"
         android:text="Start Quiz"
         android:layout_below="@+id/layout2"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:textColor="#FFFFFF"
@@ -188,5 +203,7 @@
         android:textSize="16sp"
         android:background="@drawable/round_back_green20"
         android:stateListAnimator="@android:animator/fade_in"/>
+
+
 
 </RelativeLayout>
