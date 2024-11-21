@@ -1,14 +1,15 @@
 package com.example.quizztech;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityLogin extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class ActivityLogin extends AppCompatActivity {
     private EditText txtNombre, txtContrasena;
     private Button btnSesion;
     private Button btnRegistroUsuario;
+    private Button btnRegresar;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -23,40 +25,36 @@ public class ActivityLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Referenciar los campos de texto y el TextView
+        // Referenciar los campos y botones
         txtNombre = findViewById(R.id.txtNombre);
         txtContrasena = findViewById(R.id.txtContrasena);
         btnSesion = findViewById(R.id.btnSesion);
         btnRegistroUsuario = findViewById(R.id.btnRegistroUsuario);
-        if (btnRegistroUsuario != null) {
-            btnRegistroUsuario.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Navegar a la actividad de registro
-                    Intent intent = new Intent(ActivityLogin.this, RegistroActivity.class);
-                    startActivity(intent);
-                }
-            });
-        } else {
-            // En caso de que btnRegistroUsuario sea null
-            Toast.makeText(this, "Error al encontrar el botón de registro", Toast.LENGTH_SHORT).show();
-        }
+        btnRegresar = findViewById(R.id.btnRegresar);
 
-        // Acción para el texto "¿Aún no te has registrado?"
+        // Configurar el botón de registro
         btnRegistroUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navega a la actividad de registro
+                // Navegar a la actividad de registro
                 Intent intent = new Intent(ActivityLogin.this, RegistroActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Acción del botón de iniciar sesión
+        // Configurar el botón de iniciar sesión
         btnSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iniciarSesion();
+            }
+        });
+
+        // Configurar el botón de regresar
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarConfirmacionSalir();
             }
         });
     }
@@ -84,5 +82,25 @@ public class ActivityLogin extends AppCompatActivity {
                 Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    // Método para mostrar una confirmación antes de salir
+    private void mostrarConfirmacionSalir() {
+        new AlertDialog.Builder(this)
+                .setTitle("Salir")
+                .setMessage("¿Estás seguro de que deseas salir?")
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();  // Cierra la actividad actual
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();  // Cierra el cuadro de diálogo
+                    }
+                })
+                .show();
     }
 }

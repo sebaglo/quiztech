@@ -1,7 +1,6 @@
 package com.example.quizztech;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -10,6 +9,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Mostrar la bienveida en la activity de menú
-        Bundle extras= getIntent().getExtras();
+        // Mostrar la bienvenida en la activity de menú
+        Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String nombreUsuario = extras.getString("nombreUsuario");
             String emailUsuario = extras.getString("emailUsuario");
@@ -46,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
         musicCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(musicCheckBox.isChecked()){
+                if (musicCheckBox.isChecked()) {
                     mp.start();
                 } else {
-                    if(mp.isPlaying()){
+                    if (mp.isPlaying()) {
                         mp.pause();
                         mp.seekTo(0);
                     }
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(seleccionNombreTema.isEmpty()){
+                if (seleccionNombreTema.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Seleccione un Tema", Toast.LENGTH_SHORT).show();
                 } else {
                     boolean isMusicEnabled = musicCheckBox.isChecked();
@@ -105,6 +107,30 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Agregar la funcionalidad para el botón "Regresar"
+        Button btnVolver = findViewById(R.id.btnVolver);
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showExitConfirmationDialog();
+            }
+        });
+    }
+
+    // Mostrar el cuadro de confirmación
+    private void showExitConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirmar salida")
+                .setMessage("¿Estás seguro de que quieres salir de la aplicación?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();  // Cerrar la actividad y salir de la app
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     // Selección de temas
