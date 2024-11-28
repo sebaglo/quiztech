@@ -108,14 +108,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Agregar la funcionalidad para el botón "Regresar"
-        Button btnVolver = findViewById(R.id.btnVolver);
-        btnVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showExitConfirmationDialog();
-            }
-        });
     }
 
     // Mostrar el cuadro de confirmación
@@ -133,25 +125,21 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    // Selección de temas
+    // Método para seleccionar un tema
     private void updateThemeSelection(LinearLayout selectedLayout) {
-        selectedLayout.setBackgroundResource(R.drawable.round_back_white_stroke10);
-        resetOtherLayouts(selectedLayout);
+        // Restablece el fondo de todos los temas antes de aplicar la selección actual
+        resetAllLayouts();
+
+        // Aplica el estilo solo al tema seleccionado
+        selectedLayout.setBackgroundResource(R.drawable.round_back_green10);
     }
 
-    private void resetOtherLayouts(LinearLayout selectedLayout) {
-        if (selectedLayout != findViewById(R.id.javaLayout)) {
-            findViewById(R.id.javaLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
-        }
-        if (selectedLayout != findViewById(R.id.phpLayout)) {
-            findViewById(R.id.phpLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
-        }
-        if (selectedLayout != findViewById(R.id.htmlLayout)) {
-            findViewById(R.id.htmlLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
-        }
-        if (selectedLayout != findViewById(R.id.androidLayout)) {
-            findViewById(R.id.androidLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
-        }
+    // Método para restablecer todos los temas al estado no seleccionado
+    private void resetAllLayouts() {
+        findViewById(R.id.javaLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
+        findViewById(R.id.phpLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
+        findViewById(R.id.htmlLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
+        findViewById(R.id.androidLayout).setBackgroundResource(R.drawable.round_back_white_stroke10);
     }
 
     // Detener la música cuando se cambie de Activity
