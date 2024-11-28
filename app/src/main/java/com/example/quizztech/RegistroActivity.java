@@ -54,21 +54,36 @@ public class RegistroActivity extends AppCompatActivity {
                 // Validaciones
                 if (NombreUsuario.isEmpty() || EmailUsuario.isEmpty() || ContraseñaUsuario.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Por favor, ingresa todos los campos", Toast.LENGTH_SHORT).show();
-                } else if (!EmailUsuario.contains("@")) {
+                }
+                // Validación del formato del correo electrónico
+                else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(EmailUsuario).matches()) {
                     Toast.makeText(getApplicationContext(), "Por favor, ingresa un correo válido", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Llamar al método para registrar el usuario
+                }
+                // Validación de la contraseña
+                else if (!validarContrasena(ContraseñaUsuario)) {
+                    Toast.makeText(getApplicationContext(), "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.", Toast.LENGTH_LONG).show();
+                }
+                // Si todas las validaciones son correctas
+                else {
                     postUsuario(NombreUsuario, EmailUsuario, ContraseñaUsuario);
                 }
             }
         });
 
+        // Acción del botón regresar
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();  // Finaliza la actividad actual y regresa a la anterior
             }
         });
+    }
+
+    // Método para validar la contraseña
+    private boolean validarContrasena(String contrasena) {
+        // Patrón de contraseña: al menos 8 caracteres, una mayúscula, un número y un carácter especial
+        String patron = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$";
+        return contrasena.matches(patron);
     }
 
     // Método para registrar usuario y mostrar los datos
