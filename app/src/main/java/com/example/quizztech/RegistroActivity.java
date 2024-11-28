@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
@@ -22,11 +23,12 @@ import java.util.Map;
 public class RegistroActivity extends AppCompatActivity {
 
     private EditText txtNombreRegistro, txtEmailRegistro, txtContrasenaRegistro;
+    private RadioButton rdcontra;
     private Button btnRegistrar;
     private Button btnRegresar;
     private FirebaseFirestore mfirestore;
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,44 +41,48 @@ public class RegistroActivity extends AppCompatActivity {
         // Referencias a los campos de entrada
         btnRegistrar = findViewById(R.id.btnRegistrar);
         btnRegresar = findViewById(R.id.btnRegresar);
+        rdcontra = findViewById(R.id.Rdcontraseña);  // RadioButton para mostrar/ocultar la contraseña
         txtNombreRegistro = findViewById(R.id.txtNombreRegistro);
         txtEmailRegistro = findViewById(R.id.txtEmailRegistro);
         txtContrasenaRegistro = findViewById(R.id.txtContrasenaRegistro);
 
-        // Acción del botón registrar
-        btnRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String NombreUsuario = txtNombreRegistro.getText().toString().trim();
-                String EmailUsuario = txtEmailRegistro.getText().toString().trim();
-                String ContraseñaUsuario = txtContrasenaRegistro.getText().toString().trim();
+        // Establecer un listener en el RadioButton
+        rdcontra.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // Mostrar la contraseña en texto plano cuando se marca el RadioButton
+                txtContrasenaRegistro.setInputType(129);  // 129 es el código de tipo de entrada para texto visible (PASSWORD)
+            } else {
+                // Ocultar la contraseña (mostrar como texto enmascarado)
+                txtContrasenaRegistro.setInputType(128);  // 128 es el código de tipo de entrada para texto enmascarado
+            }
+        });
 
-                // Validaciones
-                if (NombreUsuario.isEmpty() || EmailUsuario.isEmpty() || ContraseñaUsuario.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Por favor, ingresa todos los campos", Toast.LENGTH_SHORT).show();
-                }
-                // Validación del formato del correo electrónico
-                else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(EmailUsuario).matches()) {
-                    Toast.makeText(getApplicationContext(), "Por favor, ingresa un correo válido", Toast.LENGTH_SHORT).show();
-                }
-                // Validación de la contraseña
-                else if (!validarContrasena(ContraseñaUsuario)) {
-                    Toast.makeText(getApplicationContext(), "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.", Toast.LENGTH_LONG).show();
-                }
-                // Si todas las validaciones son correctas
-                else {
-                    postUsuario(NombreUsuario, EmailUsuario, ContraseñaUsuario);
-                }
+        // Acción del botón registrar
+        btnRegistrar.setOnClickListener(v -> {
+            String NombreUsuario = txtNombreRegistro.getText().toString().trim();
+            String EmailUsuario = txtEmailRegistro.getText().toString().trim();
+            String ContraseñaUsuario = txtContrasenaRegistro.getText().toString().trim();
+
+            // Validaciones
+            if (NombreUsuario.isEmpty() || EmailUsuario.isEmpty() || ContraseñaUsuario.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Por favor, ingresa todos los campos", Toast.LENGTH_SHORT).show();
+            }
+            // Validación del formato del correo electrónico
+            else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(EmailUsuario).matches()) {
+                Toast.makeText(getApplicationContext(), "Por favor, ingresa un correo válido", Toast.LENGTH_SHORT).show();
+            }
+            // Validación de la contraseña
+            else if (!validarContrasena(ContraseñaUsuario)) {
+                Toast.makeText(getApplicationContext(), "La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.", Toast.LENGTH_LONG).show();
+            }
+            // Si todas las validaciones son correctas
+            else {
+                postUsuario(NombreUsuario, EmailUsuario, ContraseñaUsuario);
             }
         });
 
         // Acción del botón regresar
-        btnRegresar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();  // Finaliza la actividad actual y regresa a la anterior
-            }
-        });
+        btnRegresar.setOnClickListener(v -> finish());  // Finaliza la actividad actual y regresa a la anterior
     }
 
     // Método para validar la contraseña
