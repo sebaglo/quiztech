@@ -1,7 +1,5 @@
 package com.example.quizztech;
 
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,40 +7,45 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityLogin extends AppCompatActivity {
 
     private EditText txtNombre, txtContrasena;
-    private Button btnSesion;
-    private Button btnRegistroUsuario;
-    private Button btnRegresar;
+    private Button btnSesion, btnRegistroUsuario, btnRegresar;
+    private FirebaseFirestore mfirestore;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Referenciar los campos y botones
+        // Inicializamos Firebase
+        FirebaseApp.initializeApp(this);
+        mfirestore = FirebaseFirestore.getInstance();
+
+        // Referencias a los campos de entrada
         txtNombre = findViewById(R.id.txtNombre);
         txtContrasena = findViewById(R.id.txtContrasena);
         btnSesion = findViewById(R.id.btnSesion);
         btnRegistroUsuario = findViewById(R.id.btnRegistroUsuario);
         btnRegresar = findViewById(R.id.btnRegresar);
 
-        // Configurar el botón de registro
+        // Acción del botón registrar
         btnRegistroUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navegar a la actividad de registro
-                Intent intent = new Intent(ActivityLogin.this, RegistroActivity.class);
-                startActivity(intent);
+                // Abre la actividad de registro
+                startActivity(new Intent(ActivityLogin.this, RegistroActivity.class));
             }
         });
 
-        // Configurar el botón de iniciar sesión
+        // Acción del botón iniciar sesión
         btnSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,57 +53,55 @@ public class ActivityLogin extends AppCompatActivity {
             }
         });
 
-        // Configurar el botón de regresar
+        // Acción del botón regresar
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostrarConfirmacionSalir();
+                finish();
             }
         });
     }
 
-    // Método para manejar el evento de inicio de sesión
     public void iniciarSesion() {
-        String nombre = txtNombre.getText().toString();
-        String contraseña = txtContrasena.getText().toString();
+        String nombre = txtNombre.getText().toString().trim();
+        String contraseña = txtContrasena.getText().toString().trim();
 
-        // Validación básica
         if (nombre.isEmpty() || contraseña.isEmpty()) {
             Toast.makeText(this, "Por favor, ingresa ambos campos", Toast.LENGTH_SHORT).show();
         } else {
-            // Simulando autenticación exitosa para demostración
-            if (nombre.equals("oscarito") && contraseña.equals("1234")) {
-                // Si la autenticación es exitosa
-                Toast.makeText(this, "Iniciando sesión...", Toast.LENGTH_SHORT).show();
+            // Consultamos los usuarios en Firestore para verificar las credenciales
+            mfirestore.collection("usuarios")
+                    .whereEqualTo("Nombre", nombre)
+                    .whereEqualTo("Contraseña", contraseña)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            // Si encontramos un usuario que coincida
+                            QuerySnapshot result = task.getResult();
+                            for (QueryDocumentSnapshot document : result) {
+                                // Acceder a los datos guardados en la base de datos
+                                String nombreUsuario = document.getString("Nombre");
+                                String emailUsuario = document.getString("Email");
 
-                // Navegar a la actividad principal
-                Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
-                startActivity(intent);
-                finish();  // Cerrar la actividad actual
-            } else {
-                // Si el nombre de usuario o la contraseña no son correctos
-                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-            }
+                                // Si es correcto, navegar a MainActivity y pasar los datos
+                                Toast.makeText(ActivityLogin.this, "Bienvenido, " + nombreUsuario, Toast.LENGTH_SHORT).show();
+
+                                // Pasar datos adicionales (como el correo electrónico)
+                                Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
+                                intent.putExtra("nombreUsuario", nombreUsuario);
+                                intent.putExtra("emailUsuario", emailUsuario);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } else {
+                            // Si no se encuentra el usuario
+                            Toast.makeText(ActivityLogin.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // En caso de error con la consulta
+                        Toast.makeText(ActivityLogin.this, "Error de conexión: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         }
-    }
-
-    // Método para mostrar una confirmación antes de salir
-    private void mostrarConfirmacionSalir() {
-        new AlertDialog.Builder(this)
-                .setTitle("Salir")
-                .setMessage("¿Estás seguro de que deseas salir?")
-                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();  // Cierra la actividad actual
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();  // Cierra el cuadro de diálogo
-                    }
-                })
-                .show();
     }
 }
